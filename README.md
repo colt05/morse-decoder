@@ -2,7 +2,8 @@
 
 ## Requirements
 Python 3  
-Keyboard Module
+Keyboard Module  
+Clint Module  
 
 ## What it does
 Morse key = q  
