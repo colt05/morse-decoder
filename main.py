@@ -44,19 +44,18 @@ def KeyPressing():
 
 def DebugBuffer():
     FinishedBuffer.clear()
-    if keyboard.is_pressed('y'):
-        simpdbg(TotalBuffer)
-        for pulses in TotalBuffer:
-            impdbg(pulses)
-            try:
-                impdbg(Morse.index(pulses))
-                impdbg(Alphabet[Morse.index(pulses)])
-                FinishedBuffer.append(Alphabet[Morse.index(pulses)])
-            except:
-                FinishedBuffer.append("?")
-        simpdbg(FinishedBuffer)
-        resetvars()
-        time.sleep(LongMessageTime)
+    #simpdbg(TotalBuffer)
+    for pulses in TotalBuffer:
+     #impdbg(pulses)
+     try:
+         #impdbg(Morse.index(pulses))
+         #impdbg(Alphabet[Morse.index(pulses)])
+         FinishedBuffer.append(Alphabet[Morse.index(pulses)])
+     except:
+        FinishedBuffer.append("?")
+         
+    simpdbg("".join(FinishedBuffer))
+    resetvars()
                 
             
     
@@ -68,7 +67,6 @@ while True:
         resetvars()
         
         while (not (KeyPressing())):
-            DebugBuffer()
             dbg("Key off")
             OffTime += 0.1
             dbg(OffTime)
@@ -78,6 +76,7 @@ while True:
                 if not (SingleBuffer == ""):
                     TotalBuffer.append(SingleBuffer)
                 SingleBuffer = ""
+                DebugBuffer()
                 time.sleep(MessageTime)
                 resetvars()
             
