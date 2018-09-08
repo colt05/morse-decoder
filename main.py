@@ -2,7 +2,7 @@ import keyboard
 import time
 
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
-ShortThreshold = 90 #The max amount of cycles until a pulse is determined to be LONG.
+ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
 LongMessageTime = 0.5 #The amount of time a long debug message should stay. Set to 0 to disable debug.
 
@@ -73,7 +73,7 @@ while True:
             OffTime += 0.1
             dbg(OffTime)
             if (OffTime >= OffThreshold):
-                simpdbg("END")
+                impdbg("END")
                 impdbg(SingleBuffer)
                 if not (SingleBuffer == ""):
                     TotalBuffer.append(SingleBuffer)
@@ -93,6 +93,7 @@ while True:
         else:
             SingleBuffer = SingleBuffer + "-"
             simpdbg("LONG")
+        OnTime = 0.0
         OffTime = 0.0 #Reset the time-till-timeout to give user enough input time.
 
         time.sleep(MessageTime)
