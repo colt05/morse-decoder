@@ -13,8 +13,20 @@ FinishedBuffer = [] #Set of letters converted from Morse.
 Morse = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '.---', '-.-', '.-..', '--', '-.', '---', '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--', '-..-', '-.--', '--..']
 Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
+
+OnTime = 0.0 #Current pulse time
+OffTime = 0.0 #Idle time
+
+        
 if not (len(Morse) == len(Alphabet)):
     print("Morse length != Alphabet length!!!")
+
+def resetvars():
+    OnTime = 0.0
+    OffTime = 0.0
+    SingleBuffer = ""
+    FinishedBuffer = []
+    FinishedBuffer.clear()
 
 def dbg(toLog):
     #print(toLog)
@@ -31,8 +43,9 @@ def KeyPressing():
     return keyboard.is_pressed('q')
 
 def DebugBuffer():
+    FinishedBuffer.clear()
     if keyboard.is_pressed('y'):
-        impdbg(TotalBuffer)
+        simpdbg(TotalBuffer)
         for pulses in TotalBuffer:
             impdbg(pulses)
             try:
@@ -42,16 +55,17 @@ def DebugBuffer():
             except:
                 FinishedBuffer.append("?")
         simpdbg(FinishedBuffer)
+        resetvars()
         time.sleep(LongMessageTime)
                 
             
     
 
-while True: #needed to break, but breaking is broken :(
+while True:
     
     while True:
-        OnTime = 0.0
-        OffTime = 0.0
+        
+        resetvars()
         
         while (not (KeyPressing())):
             DebugBuffer()
@@ -65,8 +79,7 @@ while True: #needed to break, but breaking is broken :(
                     TotalBuffer.append(SingleBuffer)
                 SingleBuffer = ""
                 time.sleep(MessageTime)
-                OffTime = 0
-                OnTime = 0
+                resetvars()
             
 
         impdbg("Key on")
