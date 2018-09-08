@@ -1,19 +1,22 @@
 import keyboard
 import time
 
+#Thresholds
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
 LongMessageTime = 0.5 #The amount of time a long debug message should stay. Set to 0 to disable debug.
 
+#Buffers
 SingleBuffer = "" #Pulses written before cleared.
 TotalBuffer = [] #Set of letters.
 FinishedBuffer = [] #Set of letters converted from Morse.
 
+#Conversions
 Morse = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '.---', '-.-', '.-..', '--', '-.', '---', '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--', '-..-', '-.--', '--..']
 Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-
+#Timeouts and Pulse Measurements
 OnTime = 0.0 #Current pulse time
 OffTime = 0.0 #Idle time
 
