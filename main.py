@@ -1,6 +1,8 @@
 import keyboard
 import time
 
+MorseKey = 'q'
+
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
@@ -40,7 +42,7 @@ def simpdbg(toLog):
     print(toLog)
 
 def KeyPressing():
-    return keyboard.is_pressed('q')
+    return keyboard.is_pressed(MorseKey)
 
 def DebugBuffer():
     FinishedBuffer.clear()
