@@ -11,6 +11,7 @@ canusegpio = True
 
 try:
     import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BOARD)
     GPIO.setup(GPIOPin, GPIO.IN, GPIO.PUD_DOWN) #https://opensourceforu.com/2017/07/introduction-raspberry-pi-gpio-programming-using-python/
 except:
     print("Error importing GPIO. It can't be used.")
@@ -85,8 +86,9 @@ def CheckToggleGPIO():
                 print("NOT using GPIO!")
                 time.sleep(LongMessageTime)
     else:
-        print("Can't use GPIO!")
-        time.sleep(LongMessageTime)
+        #print("Can't use GPIO!")
+        #time.sleep(LongMessageTime)
+        DoNothing()
 
 def DebugBuffer():
     FinishedBuffer.clear()
