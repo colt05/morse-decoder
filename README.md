@@ -3,6 +3,7 @@
 ## Requirements
 Python 3  
 Keyboard Module  
+RPi.GPIO module if you're going to be using this on a Raspberry Pi with GPIO
 
 ## What it does
 Morse key = q (by default, change the MorseKey variable to the hotkey you will use)   
