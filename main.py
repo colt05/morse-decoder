@@ -2,6 +2,21 @@ import keyboard
 import time
 
 MorseKey = 'q'
+ToggleGPIO = 'g'
+GPIOPin = 7
+
+canusegpio = True
+
+try:
+    import RPi.GPIO as GPIO
+    GPIO.setup(GPIOPin, GPIO.IN, GPIO.PUD_DOWN) #https://opensourceforu.com/2017/07/introduction-raspberry-pi-gpio-programming-using-python/
+except:
+    print("Error importing GPIO. It can't be used.")
+    #canusegpio = False
+
+global UsingGPIO
+UsingGPIO = False
+
 
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
@@ -23,6 +38,9 @@ OffTime = 0.0 #Idle time
 if not (len(Morse) == len(Alphabet)):
     print("Morse length != Alphabet length!!!")
 
+def DoNothing():
+    return
+
 def resetvars():
     OnTime = 0.0
     OffTime = 0.0
@@ -32,17 +50,40 @@ def resetvars():
 
 def dbg(toLog):
     #print(toLog)
-    KeyPressing() #python requires a thing to be used
+    DoNothing()
 
 def impdbg(toLog):
     #print(toLog)
-    KeyPressing()
+    DoNothing()
 
 def simpdbg(toLog):
     print(toLog)
 
 def KeyPressing():
+    global UsingGPIO
+    try:
+        if UsingGPIO:
+            return bool(GPIO.input(GPIOPin))
+    except:
+        print("Using GPIO failed")
+        
     return keyboard.is_pressed(MorseKey)
+
+def CheckToggleGPIO():
+    global UsingGPIO # https://stackoverflow.com/questions/18002794/local-variable-referenced-before-assignment-in-python
+    if canusegpio:
+        if keyboard.is_pressed(ToggleGPIO):
+            UsingGPIO = not UsingGPIO
+            print(UsingGPIO)
+            if UsingGPIO:
+                print("Using GPIO!")
+                time.sleep(LongMessageTime)
+            else:
+                print("NOT using GPIO!")
+                time.sleep(LongMessageTime)
+    else:
+        print("Can't use GPIO!")
+        time.sleep(LongMessageTime)
 
 def DebugBuffer():
     FinishedBuffer.clear()
@@ -62,14 +103,15 @@ def DebugBuffer():
             
     
 
-while True:
+try:
     
     while True:
         
         resetvars()
-        
+        CheckToggleGPIO()
         while (not (KeyPressing())):
             dbg("Key off")
+            CheckToggleGPIO()
             OffTime += 0.1
             dbg(OffTime)
             if (OffTime >= OffThreshold):
@@ -96,6 +138,14 @@ while True:
             simpdbg("LONG")
         OnTime = 0.0
         OffTime = 0.0 #Reset the time-till-timeout to give user enough input time.
-
+        CheckToggleGPIO()
         time.sleep(MessageTime)
-        
+
+except:
+    try:
+        GPIO.cleanup()
+        print("GPIO cleaned up")
+    except:
+        print("GPIO not cleaned up")
+    
+    DebugBuffer()
