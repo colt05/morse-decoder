@@ -14,7 +14,7 @@ try:
     GPIO.setup(GPIOPin, GPIO.IN, GPIO.PUD_DOWN) #https://opensourceforu.com/2017/07/introduction-raspberry-pi-gpio-programming-using-python/
 except:
     print("Error importing GPIO. It can't be used.")
-    #canusegpio = False
+    canusegpio = False
 
 global UsingGPIO
 UsingGPIO = False
@@ -104,7 +104,7 @@ def DebugBuffer():
     resetvars()
                 
             
-def PeriodicDump():
+def PeriodicDump(): # https://stackoverflow.com/questions/3393612/run-certain-code-every-n-seconds
     threading.Timer(DumpInterval, PeriodicDump).start()
     DebugBuffer()
 
