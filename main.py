@@ -1,8 +1,10 @@
 import keyboard
 import time
+import threading
 
 MorseKey = 'q'
 ToggleGPIO = 'g'
+DumpKey = 'd'
 GPIOPin = 7
 
 canusegpio = True
@@ -22,6 +24,7 @@ OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
 LongMessageTime = 0.5 #The amount of time a long debug message should stay. Set to 0 to disable debug.
+DumpInterval = 5.0 #The interval in seconds in which the character set will be dumped.
 
 SingleBuffer = "" #Pulses written before cleared.
 TotalBuffer = [] #Set of letters.
@@ -101,10 +104,16 @@ def DebugBuffer():
     resetvars()
                 
             
-    
+def PeriodicDump():
+    threading.Timer(DumpInterval, PeriodicDump).start()
+    DebugBuffer()
+
+def ManualDump():
+    if keyboard.is_pressed(DumpKey):
+        DebugBuffer()
 
 try:
-    
+    PeriodicDump()
     while True:
         
         resetvars()
@@ -120,7 +129,6 @@ try:
                 if not (SingleBuffer == ""):
                     TotalBuffer.append(SingleBuffer)
                 SingleBuffer = ""
-                DebugBuffer()
                 time.sleep(MessageTime)
                 resetvars()
             
