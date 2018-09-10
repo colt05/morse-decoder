@@ -24,6 +24,7 @@ UsingGPIO = False
 
 
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
+OffThresholdGPIO = 15 #See the readme
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
 ShortThresholdGPIO = 3.9 #See the readme
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
@@ -129,7 +130,10 @@ try:
             CheckToggleGPIO()
             OffTime += 0.1
             dbg(OffTime)
-            if (OffTime >= OffThreshold):
+            curOff = OffThreshold
+            if UsingGPIO:
+                curOff = OffThresholdGPIO
+            if (OffTime >= curOff):
                 impdbg("END")
                 impdbg(SingleBuffer)
                 if not (SingleBuffer == ""):
