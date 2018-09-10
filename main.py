@@ -25,6 +25,7 @@ UsingGPIO = False
 
 OffThreshold = 900 #Threshold until characters are sent to TotalBuffer
 ShortThreshold = 100 #The max amount of cycles until a pulse is determined to be LONG.
+ShortThresholdGPIO = 3.9 #See the readme
 MessageTime = 0.0 #The amount of time a non-full-debug message will stay on screen. Set to 0 to disable debug.
 LongMessageTime = 0.5 #The amount of time a long debug message should stay. Set to 0 to disable debug.
 DumpInterval = 5.0 #The interval in seconds in which the character set will be dumped.
