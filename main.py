@@ -6,6 +6,8 @@ MorseKey = 'q'
 ToggleGPIO = 'g'
 DumpKey = 'd'
 GPIOPin = 7
+Debounce = 0.01 #Time in SECONDS before reading GPIO input. Change according to your morse speed (only if using gpio)
+
 
 canusegpio = True
 
@@ -67,6 +69,7 @@ def KeyPressing():
     global UsingGPIO
     try:
         if UsingGPIO:
+            time.sleep(Debounce)
             return bool(GPIO.input(GPIOPin))
     except:
         print("Using GPIO failed")
