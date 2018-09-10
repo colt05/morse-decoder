@@ -144,7 +144,10 @@ try:
             OnTime += 0.1
             dbg(OnTime)
 
-        if (OnTime <= ShortThreshold):
+        curThreshold = ShortThreshold
+        if UsingGPIO:
+            curThreshold = ShortThresholdGPIO
+        if (OnTime <= curThreshold):
             SingleBuffer = SingleBuffer + "."
             simpdbg("SHORT")
         else:
